@@ -1,0 +1,136 @@
+﻿@page
+@model AxiePro.Pages.Member.ListModel
+@{
+    ViewData["Title"] = "Members List";
+}<div>
+
+ </div>
+<div class="row">
+  <h4></h4>
+
+        <div class="col-xl-12 order-xl-2">
+        
+        <div class="card ">
+            <div class="card-header">
+                <div class="row align-items-center">
+      
+                </div>
+     
+            </div>
+            <div class="card-body">
+                 <ejs-grid id="Grid" allowPaging="true"  dataSource="@Model.MembershipDataSource"  toolbar="@(new List<string>() { "Search"})">
+                    
+     <e-grid-pagesettings pageSizes="true">
+    </e-grid-pagesettings>
+
+    <e-grid-columns>
+                 <e-grid-column template="#profileTemplate" textAlign="Center"  headerText="Name"></e-grid-column>
+      <e-grid-column allowFiltering="false" field="MembershipStartDate" format="y-MM-dd" textAlign="Center"  headerText="Subscription Start"></e-grid-column>
+      <e-grid-column allowFiltering="false" field="MembershipEndDate" format="y-MM-dd" textAlign="Center"  headerText="Subscription End" ></e-grid-column>
+
+    </e-grid-columns>
+</ejs-grid>
+            </div></div>
+                 <div class="pricing card-group flex-column flex-md-row mb-3">
+            <div class="card card-pricing border border-soft text-center mb-4">
+              <div class="card-header bg-transparent">
+                <h4 class="text-uppercase ls-1 text-primary py-3 mb-0">Free User</h4>
+              </div>
+              <div class="card-body px-lg-4">
+                <div class="display-4">Free</div>
+  
+                <ul class="list-unstyled my-4">
+                  <li>
+                    <div class="d-flex align-items-center">
+                      <div>
+                        <div class="icon icon-xs icon-shape bg-gradient-primary shadow rounded-circle text-white">
+                          <i class="fas fa-terminal"></i>
+                        </div>
+                      </div>
+                      <div>
+                        <span class="pl-2">View past 200 battles</span>
+                      </div>
+                    </div>
+                  </li>
+      
+                </ul>
+
+              </div>
+              <div class="card-footer">
+
+              </div>
+            </div>
+            <div class="card card-pricing bg-gradient-danger zoom-in shadow-lg rounded border-0 text-center mb-4">
+              <div class="card-header bg-transparent">
+                <h4 class="text-uppercase ls-1 text-white py-3 mb-0">Member</h4>
+              </div>
+              <div class="card-body px-lg-4">
+                <div class="display-4 text-white">100 SLP</div>
+                <span class="text-white">per month</span>
+                <ul class="list-unstyled my-4">
+                  <li>
+                    <div class="d-flex align-items-center">
+                      <div>
+                        <div class="icon icon-xs icon-shape bg-white shadow rounded-circle text-muted">
+                          <i class="fas fa-terminal"></i>
+                        </div>
+                      </div>
+                      <div>
+                        <span class="pl-2 text-white">View Past 1,000 battles</span>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="d-flex align-items-center">
+                      <div>
+         
+                      </div>
+                      <div>
+                        <span class="pl-2 text-white">More features coming soon!</span>
+                      </div>
+                    </div>
+                  </li>
+
+                </ul>
+         
+              </div>
+              <div class="card-footer bg-transparent">
+               <span class="text-white">Pay to ronin:666bcd8766bcce45e1b1611f5bf9b7d68d4437f2</span>
+              </div>
+            </div>
+          </div> 
+               <div class="d-flex justify-content-lg-center px-3 mt-5">
+        <div>
+          <div class="icon icon-shape bg-gradient-white shadow border border-soft rounded-circle text-primary">
+            <i class="ni ni-building text-primary"></i>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <p>Please send the exact amount to the stated address, no more, no less. Advance payments are not accepted yet due to the uncertainty surrounding Axie's Battle History API.</p>
+        </div>
+      </div>
+ 
+        </div>
+</div>
+   <script id="endTemplate" type="text/x-template">
+             <span class="text-uppercase text-muted font-weight-bold heading mb-0 text-sm">${MembershipEndDate}</span>
+                 
+                      
+</script>
+    <script id="startTemplate" type="text/x-template">
+       
+      <span class="text-uppercase text-muted font-weight-bold heading mb-0 text-sm">${MembershipStartDate}</span>
+                 
+                      
+</script>
+    <script id="profileTemplate" type="text/x-template">
+       
+      <div class="d-flex flex-nowrap justify-content-center">
+              <a href="/profile/analysis?roninId=${client_id}" class="h5">${MemberUid}</a>  
+   </div>  
+                 
+                      
+</script>
+@section Scripts{
+
+}

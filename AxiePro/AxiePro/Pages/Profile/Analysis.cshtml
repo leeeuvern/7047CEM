@@ -1,0 +1,534 @@
+﻿@page
+@model AxiePro.Pages.Profile.AnalysisModel
+@{
+    ViewData["Title"] = "Profile Analysis";
+}
+
+@if (Model.BattlesDataSource ==null)
+{
+    
+        <div class="container" style="min-height:800px">
+            <h5>Enter a ronin address</h5>
+        </div>
+}else{
+    <h6>Note that Axie's API proxy is currently down and retrieving account names is not available. Please bear with the displayment of ronin addresses for the time being.</h6>
+<div class="row">
+    <div class="col-xl-3 order-xl-1">
+        <div class="card card-profile">
+            @*<img src="~/impact/dashboard/assets/img/them  e/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">*@
+
+            <div class="card-header text-center border-0">
+                @if(Model.PlayerMmr!=null){
+                <div class="text-center">
+                    <h5 class="h3">
+                  @if(Model.PlayerMmrProxy != null)
+                            @Model.PlayerMmrProxy.name                            @if(Model.IsMember){                           <span class="badge badge-pill badge-primary text-white">Member</span>                           }                        </h5>                    <h6 class="surtitle">
+                       @Model.PlayerMmr.clientID
+                    </h6>
+                    <div style="padding-top:1em">
+                        <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                            <i class="ni ni-trophy"></i>
+                        </div>
+                    </div>
+                    <h2 class="card-title text-uppercase text-muted mb-0 mt-2">@Model.PlayerMmr.elo MMR</h2>
+                    <div class="h5 mt-1">
+                        <i class="surtitle"></i>Rank @Model.PlayerMmr.rank
+                    </div>
+
+                    <div>
+                    </div>
+                </div>
+                }
+
+
+                <row>
+
+
+
+            </div>
+
+        </div>
+          <div class="card h-80">
+                    <!-- Card header -->
+                    <div class="card-header">
+                        <!-- Surtitle -->
+                        <h6 class="surtitle">Win Rate</h6>
+                        <!-- Title -->
+                        <h5 class="h5 mb-0">Last 100 Games</h5>
+
+                    </div>
+                    <!-- Card body -->
+                    <div class="card-body pt-0">
+
+                        <div class="chart mt-0" style="height:120px">
+
+                            <!-- Chart wrapper -->
+                            <canvas id="winrate-doughnut" class="chart-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+        <!-- Progress track -->
+        <div class="card">
+            <!-- Card header -->
+            <div class="card-header">
+                <!-- Title -->
+                <h5 class="h3 mb-0">Favourite Teams</h5>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+                <!-- List group -->
+                <ul class="list-group list-group-flush list my--3">
+                    @for(int x=0;x < @Model.FavouriteTeams.Count;x++){
+                        @if(x<4){
+                    <li class="list-group-item px-0">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                      <div class="d-flex flex-nowrap">
+                                <div class="axie-img">  <a  href="https://marketplace.axieinfinity.com/axie/@Model.FavouriteTeams[x].FirstOrDefault().FirstUserFighter"> <img alt="Image placeholder" src="https://assets.axieinfinity.com/axies/@Model.FavouriteTeams[x].FirstOrDefault().FirstUserFighter/axie/axie-full-transparent.png"></a></div>
+                                <div class="axie-img">   <a  href="https://marketplace.axieinfinity.com/axie/@Model.FavouriteTeams[x].FirstOrDefault().SecondUserFighter"> <img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.FavouriteTeams[x].FirstOrDefault().SecondUserFighter/axie/axie-full-transparent.png"></a></div>
+                                <div class="axie-img">   <a  href="https://marketplace.axieinfinity.com/axie/@Model.FavouriteTeams[x].FirstOrDefault().ThirdUserFighter"> <img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.FavouriteTeams[x].FirstOrDefault().ThirdUserFighter/axie/axie-full-transparent.png"></a></div>
+                                </div>
+                             
+                                <div class="d-flex flex-nowrap justify-content-center">
+                               <h4 class="text-success mr-2"><span class="font-weight-light">W</span>@Model.FavouriteTeams[x].Count(a=>a.Result == "Win") </h4>
+                                 <h4 class="text-warning mr-2"><span class="font-weight-light">L</span>@Model.FavouriteTeams[x].Count(a=>a.Result == "Lose")</h4>
+                                </div>
+                              
+                            </div>
+                            <div class="col-1">
+                            <button class="btn btn-icon btn-primary btn-sm" ID="groupColumn" runat="server" Text="GroupColumn" Width="100px" Size="Medium" Type="Button" onclick="clicktoGroup('@Model.FavouriteTeams[x].Key')"> <span class="btn-inner--icon"><i class="ni ni-bold-right"></i></span></button>
+                      
+                        </div>
+                 
+                        </div>
+                    </li>
+                    }
+                    }
+                     @if (@Model.FavouriteTeams.Count > 5)
+                    {
+                           @for(int x = 4; x < @Model.FavouriteTeams.Count; x++){
+                             <li id="favCol" class="list-group-item px-0 collapse">
+                           <div  class="row align-items-center">
+                            <div class="col-auto">
+                                      <div class="d-flex flex-nowrap">
+                                <div class="axie-img">  <a href="https://marketplace.axieinfinity.com/axie/@Model.FavouriteTeams[x].FirstOrDefault().FirstUserFighter"> <img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.FavouriteTeams[x].FirstOrDefault().FirstUserFighter/axie/axie-full-transparent.png"></a></div>
+                                <div class="axie-img">  <a href="https://marketplace.axieinfinity.com/axie/@Model.FavouriteTeams[x].FirstOrDefault().SecondUserFighter"> <img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.FavouriteTeams[x].FirstOrDefault().SecondUserFighter/axie/axie-full-transparent.png"></a></div>
+                                <div class="axie-img">  <a href="https://marketplace.axieinfinity.com/axie/@Model.FavouriteTeams[x].FirstOrDefault().ThirdUserFighter"> <img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.FavouriteTeams[x].FirstOrDefault().ThirdUserFighter/axie/axie-full-transparent.png"></a></div>
+                                </div>
+                             
+                                <div class="d-flex flex-nowrap justify-content-center">
+                               <h4 class="text-success mr-2"><span class="font-weight-light">W</span>@Model.FavouriteTeams[x].Count(a=>a.Result == "Win") </h4>
+                                 <h4 class="text-warning mr-2"><span class="font-weight-light">L</span>@Model.FavouriteTeams[x].Count(a=>a.Result == "Lose")</h4>
+                                </div>
+                              
+                            </div>
+                            <div class="col-1">
+                            <button class="btn btn-icon btn-primary btn-sm" ID="groupColumn" runat="server" Text="GroupColumn" Width="100px" Size="Medium" Type="Button" onclick="clicktoGroupClass('@Model.FavouriteTeams[x].Key')"> <span class="btn-inner--icon"><i class="ni ni-bold-right"></i></span></button>
+                      
+                        </div>
+                 
+                        </div>
+                        
+                        </li>
+
+                       }
+                    }
+
+                 
+                </ul>
+            </div>
+                     <div class="card-footer border-0">
+                                 <button type="button" class="btn btn-icon btn-secondary w-100" data-toggle="collapse" data-target="#favCol">Show More</button>
+            </div>
+        </div>
+        <!--Opponents-->
+          <div class="card">
+            <!-- Card header -->
+            <div class="card-header">
+                <!-- Title -->
+                <h5 class="h3 mb-0">Opponents Faced</h5>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+                <!-- List group -->
+                <ul class="list-group list-group-flush list my--3">
+                    @for(int x = 0;x <@Model.Opponents.Count;x++){
+                        @if (x < 4) { 
+                        <li class="list-group-item px-0">
+                     
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                      <div class="d-flex flex-nowrap">
+                                <div class="axie-img">   <a  href="https://marketplace.axieinfinity.com/axie/@Model.Opponents[x].FirstOrDefault().FirstOpponentFighter"><img alt="Image placeholder" src="https://assets.axieinfinity.com/axies/@Model.Opponents[x].FirstOrDefault().FirstOpponentFighter/axie/axie-full-transparent.png"></a></div>
+                                <div class="axie-img">   <a href="https://marketplace.axieinfinity.com/axie/@Model.Opponents[x].FirstOrDefault().SecondOpponentFighter"><img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.Opponents[x].FirstOrDefault().SecondOpponentFighter/axie/axie-full-transparent.png"></a></div>
+                                <div class="axie-img">   <a href="https://marketplace.axieinfinity.com/axie/@Model.Opponents[x].FirstOrDefault().ThirdOpponentFighter"><img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.Opponents[x].FirstOrDefault().ThirdOpponentFighter/axie/axie-full-transparent.png"></a></div>
+                                </div>
+                             
+                                <div class="d-flex flex-nowrap justify-content-center">
+                               <h4 class="text-success mr-2"><span class="font-weight-light">W</span>@Model.Opponents[x].Count(a=>a.Result == "Win") </h4>
+                                 <h4 class="text-warning mr-2"><span class="font-weight-light">L</span>@Model.Opponents[x].Count(a=>a.Result == "Lose")</h4>
+                                </div>
+                              
+                            </div>
+                            <div class="col-1">
+                            <button class="btn btn-icon btn-primary btn-sm" ID="groupColumn" runat="server" Text="GroupColumn" Width="100px" Size="Medium" Type="Button" onclick="clicktoGroupClass('@Model.Opponents[x].Key')"> <span class="btn-inner--icon"><i class="ni ni-bold-right"></i></span></button>
+                      
+                        </div>
+                 
+                        </div>
+                       
+                        
+                        </li>
+                        }
+                    }
+                    @if (Model.Opponents.Count > 5)
+                    {
+                       @for(int x = 4; x < Model.Opponents.Count; x++){
+                             <li id="opCol" class="list-group-item px-0 collapse">
+                           <div  class="row align-items-center">
+                            <div class="col-auto">
+                                      <div class="d-flex flex-nowrap">
+                                <div class="axie-img">   <a href="https://marketplace.axieinfinity.com/axie/@Model.Opponents[x].FirstOrDefault().FirstOpponentFighter"><img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.Opponents[x].FirstOrDefault().FirstOpponentFighter/axie/axie-full-transparent.png"></a></div>
+                                <div class="axie-img">   <a href="https://marketplace.axieinfinity.com/axie/@Model.Opponents[x].FirstOrDefault().SecondOpponentFighter"><img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.Opponents[x].FirstOrDefault().SecondOpponentFighter/axie/axie-full-transparent.png"></a></div>
+                                <div class="axie-img">   <a  href="https://marketplace.axieinfinity.com/axie/@Model.Opponents[x].FirstOrDefault().ThirdOpponentFighter"><img alt="Image placeholder" src="https://assets.axieinfinity.com/axies/@Model.Opponents[x].FirstOrDefault().ThirdOpponentFighter/axie/axie-full-transparent.png"></a></div>
+                                </div>
+                             
+                                <div class="d-flex flex-nowrap justify-content-center">
+                               <h4 class="text-success mr-2"><span class="font-weight-light">W</span>@Model.Opponents[x].Count(a=>a.Result == "Win") </h4>
+                                 <h4 class="text-warning mr-2"><span class="font-weight-light">L</span>@Model.Opponents[x].Count(a=>a.Result == "Lose")</h4>
+                                </div>
+                              
+                            </div>
+                            <div class="col-1">
+                            <button class="btn btn-icon btn-primary btn-sm" ID="groupColumn" runat="server" Text="GroupColumn" Width="100px" Size="Medium" Type="Button" onclick="clicktoGroupClass('@Model.Opponents[x].Key')"> <span class="btn-inner--icon"><i class="ni ni-bold-right"></i></span></button>
+                      
+                        </div>
+                 
+                        </div>
+                        
+                        </li>
+
+                       }
+                        
+                    }
+
+                 
+                </ul>
+   
+            </div>
+            <div class="card-footer border-0">
+                                 <button type="button" class="btn btn-icon btn-secondary w-100" data-toggle="collapse" data-target="#opCol">Show More</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-9 order-xl-2">
+   
+        <div class="card ">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-4 col-xs-12">
+                        <h3 class="mb-0">Match History <span><span class="text-success">W<span>@Model.WinRecord.Wins</span></span><span class="text-warning"> L<span>@Model.WinRecord.Losses</span></span></span></h3> 
+                     
+                             
+                    </div>
+
+             <div class="col-8 col-xs-12 text-right">
+              <button class="btn btn-sm btn-neutral" onclick="clearFilter();">Reset Filters</button>
+           
+            </div>
+                </div>
+     
+            </div>
+            <div class="card-body">
+        <ejs-grid id="Grid" IsResponsive="true" enableResponsiveRow="true" allowFiltering="true" dataSource="@Model.BattlesDataSource" allowPaging="true" rowDataBound="rowDataBound" dataBound="begin" >
+            
+    <e-grid-columns>
+             <e-grid-pagesettings pageSizes="true">
+    </e-grid-pagesettings>
+        <e-grid-column field="BuildHash" visible="false" textAlign="Center"   headerText="BuildHash"> </e-grid-column>
+                <e-grid-column field="OpponentClassHash" visible="false" textAlign="Center"   headerText="OpponentClassHash"> </e-grid-column>
+              <e-grid-column headerText="Result"  textAlign="Center"   headerText="Result"     template="#resultTemplate"></e-grid-column>
+       <e-grid-column headerText="Team"  textAlign="Center" template="#userTeamTemplate"></e-grid-column>
+ 
+        <e-grid-column  headerText="Opponent"  textAlign="Center"   template="#opponentTeamTemplate"></e-grid-column>
+
+        <e-grid-column  headerText="Replay"  textAlign="Center"  template="#replayTemplate" width="120"></e-grid-column>
+      
+      
+    </e-grid-columns>
+
+ </ejs-grid>
+
+ <style> 
+
+    .e-grid .e-filterbar { 
+        display: none; 
+    } 
+    .e-pagerexternalmsg{
+             display: none!important; 
+    }
+</style> 
+ <script>
+     function begin(e){
+      if (e.requestType === 'paging') { 
+
+      }
+      var list = document.getElementsByTagName("opName");
+   
+      for (let x =0;x< list.length;x++){
+        var op = list[x].innerHTML;
+      
+           fetch('https://game-api.axie.technology/api/v1/ronin:'+op.substring(3))
+  .then(response => response.json())
+ .then((data)  => {  list[x].innerHTML = data.name;
+ 
+})}
+
+      }
+     
+  
+       function rowDataBound(e) { 
+        
+        if (e.data['Draw'] == true)
+        {}
+        else{
+        if (e.data['Result'] == "Lose") {
+     e.row.style.background = '#FFEBEE';
+        }
+        else
+             e.row.style.background = '#E0F2F1';
+    var opName = document.getElementById(e.data['OpponentUid']);
+ }
+       }
+</script>
+     <script id="userTeamTemplate" type="text/x-template">
+
+         
+                              <div class="d-flex flex-nowrap justify-content-center">
+      <div class="axie-img">  <a href="https://marketplace.axieinfinity.com/axie/${FirstUserFighter}"> <img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/${FirstUserFighter}/axie/axie-full-transparent.png"></a></div>
+       <div class="axie-img">  <a href="https://marketplace.axieinfinity.com/axie/${SecondUserFighter}"> <img alt="Image placeholder" src="https://assets.axieinfinity.com/axies/${SecondUserFighter}/axie/axie-full-transparent.png"></a></div>
+       <div class="axie-img">   <a href="https://marketplace.axieinfinity.com/axie/${ThirdUserFighter}"><img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/${ThirdUserFighter}/axie/axie-full-transparent.png"></a></div>
+
+   </div>  
+                 
+                         <div class="text-center">  <a href="/profile/analysis?roninId=${UserUid}" class="h5">  <proName id="${UserUid}" class="text-muted"> @if(Model.PlayerMmrProxy != null)
+                            @Model.PlayerMmrProxy.name
+                    </opName></a> </div>
+   
+</script>
+    <script id="opponentTeamTemplate" type="text/x-template">
+       
+      <div class="d-flex flex-nowrap justify-content-center">
+      <div class="axie-img">  <a href="https://marketplace.axieinfinity.com/axie/${FirstOpponentFighter}"> <img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/${FirstOpponentFighter}/axie/axie-full-transparent.png"></a></div>
+       <div class="axie-img">  <a href="https://marketplace.axieinfinity.com/axie/${SecondOpponentFighter}"> <img alt="Image placeholder" src="https://assets.axieinfinity.com/axies/${SecondOpponentFighter}/axie/axie-full-transparent.png"></a></div>
+       <div class="axie-img">  <a href="https://marketplace.axieinfinity.com/axie/${ThirdOpponentFighter}"> <img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/${ThirdOpponentFighter}/axie/axie-full-transparent.png"></a></div>
+
+
+   </div>  
+                 
+                        <div class="text-center">  <a href="/profile/analysis?roninId=${OpponentUid}" class="h5">  <opName id="${OpponentUid}" class="text-muted"> ${OpponentUid}
+                    </opName></a> </div>
+            
+                      
+</script>
+   <script id="replayTemplate" type="text/x-template">
+
+     <a type="button" href="https://cdn.axieinfinity.com/game/deeplink.html?f=rpl&q=${BattleUid}" target="_blank" class="btn btn-primary btn-icon-only">
+                <span class="btn-inner--icon"><i class="fab fa-youtube"></i></span>
+      
+     </a>
+   
+</script>
+   <script id="resultTemplate" type="text/x-template">
+                     ${if(Draw)}
+           <h5 class="heading mb-0">Draw</h5>  
+       ${else}
+       ${if(Result == "Win")}
+<h5 class="heading text-success mb-0">Win</h5>                
+    ${else}
+<h5 class="heading text-warning mb-0">Lose</h5>
+                ${/if} 
+                      ${/if}      
+         
+  <span class="text-muted">${TimeAgo}</span>
+
+</script>
+
+
+            </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+
+
+<script>
+//   jQuery(document).ready(function() {
+
+  
+//      var list = document.getElementsByTagName("proName");
+//         alert(list.innerHTML);
+//      for (let x =0;x< list.length;x++){
+//        var op = list[x].innerHTML;
+      
+//           fetch('https://game-api.axie.technology/api/v1/ronin:'+op.substring(3))
+//  .then(response => response.json())
+// .then((data)  => {  list[x].innerHTML = data.name;
+ 
+//})}
+
+      
+     
+//});
+                  Chart.pluginService.register({
+      beforeDraw: function(chart) {
+        if (chart.config.options.elements.center) {
+          // Get ctx from string
+          var ctx = chart.chart.ctx;
+
+          // Get options from the center object in options
+          var centerConfig = chart.config.options.elements.center;
+          var fontStyle = centerConfig.fontStyle || 'Arial';
+          var txt = centerConfig.text;
+          var color = centerConfig.color || '#000';
+          var maxFontSize = centerConfig.maxFontSize || 75;
+          var sidePadding = centerConfig.sidePadding || 20;
+          var sidePaddingCalculated = (sidePadding / 100) * (chart.innerRadius * 2)
+          // Start with a base font of 30px
+          ctx.font = "30px " + fontStyle;
+
+          // Get the width of the string and also the width of the element minus 10 to give it 5px side padding
+          var stringWidth = ctx.measureText(txt).width;
+          var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
+
+          // Find out how much the font can grow in width.
+          var widthRatio = elementWidth / stringWidth;
+          var newFontSize = Math.floor(30 * widthRatio);
+          var elementHeight = (chart.innerRadius * 2);
+
+          // Pick a new font size so it will not be larger than the height of label.
+          var fontSizeToUse = Math.min(newFontSize, elementHeight, maxFontSize);
+          var minFontSize = centerConfig.minFontSize;
+          var lineHeight = centerConfig.lineHeight || 25;
+          var wrapText = false;
+
+          if (minFontSize === undefined) {
+            minFontSize = 20;
+          }
+
+          if (minFontSize && fontSizeToUse < minFontSize) {
+            fontSizeToUse = minFontSize;
+            wrapText = true;
+          }
+
+          // Set font settings to draw it correctly.
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+          var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+          ctx.font = fontSizeToUse + "px " + fontStyle;
+          ctx.fillStyle = color;
+
+          if (!wrapText) {
+            ctx.fillText(txt, centerX, centerY);
+            return;
+          }
+
+          var words = txt.split(' ');
+          var line = '';
+          var lines = [];
+
+          // Break words up into multiple lines if necessary
+          for (var n = 0; n < words.length; n++) {
+            var testLine = line + words[n] + ' ';
+            var metrics = ctx.measureText(testLine);
+            var testWidth = metrics.width;
+            if (testWidth > elementWidth && n > 0) {
+              lines.push(line);
+              line = words[n] + ' ';
+            } else {
+              line = testLine;
+            }
+          }
+
+          // Move the center up depending on line height and number of lines
+          centerY -= (lines.length / 2) * lineHeight;
+
+          for (var n = 0; n < lines.length; n++) {
+            ctx.fillText(lines[n], centerX, centerY);
+            centerY += lineHeight;
+          }
+          //Draw text in center
+          ctx.fillText(line, centerX, centerY);
+        }
+      }
+    });
+       function clearFilter(args) {
+               var obj = document.getElementById('Grid').ej2_instances[0]
+    
+        obj.clearFiltering();
+        }
+      function clicktoGroup(args) {
+               var obj = document.getElementById('Grid').ej2_instances[0]
+    
+        obj.filterByColumn('BuildHash','equal',args);
+        }
+  function clicktoGroupClass(args) {
+               var obj = document.getElementById('Grid').ej2_instances[0]
+    
+        obj.filterByColumn('OpponentClassHash','equal',args);
+        }    
+</script>
+<script>
+
+                  const ctx = document.getElementById('winrate-doughnut');
+              const myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Win', 'Lose', ],
+    datasets: [{
+        label: 'Win Rate',
+        data: [@Model.WinRecord.Wins, @Model.WinRecord.Losses],
+        backgroundColor: [
+
+          'rgb(54, 162, 235)',
+           'rgb(255, 99, 132)',
+
+        ],
+        hoverOffset: 4
+      }]
+        },
+        options: {
+            legend: {
+          display: true,
+          position: 'top',
+          labels: {
+               render: 'value',
+            fontColor: "#000080",
+            fontSize: 10
+          },
+
+        },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+              elements: {
+        center: {
+          text: '@Model.WinRecord.WinRate%',
+          color: 'black', // Default is #000000
+          fontStyle: 'sans-serif', // Default is Arial
+          sidePadding: 60, // Default is 20 (as a percentage)
+          minFontSize: 12, // Default is 20 (in px), set to false and text will not wrap.
+          lineHeight: 25 // Default is 25 (in px), used for when text wraps
+        }
+      }
+        }
+    });
+</script>
+}
+}
+
+

@@ -1,0 +1,178 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Leaderboards";
+}<div>
+ <h6>This site is currently in public beta mode. For feedback, suggestions, and bug reporting, please contact help@rektcord.com</h6>
+ </div>
+<div class="row">
+   <div class="col-xl-4 order-xl-1">
+        <div class="card card-profile">
+            @*<img src="~/impact/dashboard/assets/img/them  e/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">*@
+
+            <div class="card-header text-center border-0">
+              
+                <div class="text-center">
+                          <div style="padding-bottom:1em">
+                        <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                            <i class="ni ni-trophy"></i>
+                        </div>
+                    </div>
+                    <h5 id="oneName" class="h3">
+                 
+                    </h5>
+                    <h6 id="oneAddress" class="surtitle">
+                    
+                    </h6>
+              
+                    <h2 class="card-title text-uppercase text-muted mb-0 mt-2"><span id="oneMmr"></span> MMR</h2> 
+                    <div class="h3 mt-1">
+                        <i class="surtitle"></i>Rank #<span id="oneRank"></span>
+                    </div>
+
+                    <div>
+                    </div>
+                </div>
+               
+
+
+            </div>
+
+        </div>
+            <div class="card">
+            <!-- Card header -->
+            <div class="card-header">
+                <!-- Title -->
+                <h5 class="h3 mb-0">Most Played TOP 100 Teams</h5>
+                    <h6 class="surtitle">Last 3 days</h6>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+                <!-- List group -->
+                <ul class="list-group list-group-flush list my--3">
+                    @for(int x=0;x < @Model.FavouriteTeams.Count;x++){
+                        @if(x<20){
+                    <li class="list-group-item px-0">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                      <div class="d-flex flex-nowrap">
+                                <div class="axie-lg-img">  <a  href="https://marketplace.axieinfinity.com/axie/@Model.FavouriteTeams[x].FirstUserFighter"> <img alt="Image placeholder" src="https://assets.axieinfinity.com/axies/@Model.FavouriteTeams[x].FirstUserFighter/axie/axie-full-transparent.png"></a></div>
+                                <div class="axie-lg-img">   <a  href="https://marketplace.axieinfinity.com/axie/@Model.FavouriteTeams[x].SecondUserFighter"> <img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.FavouriteTeams[x].SecondUserFighter/axie/axie-full-transparent.png"></a></div>
+                                <div class="axie-lg-img">   <a  href="https://marketplace.axieinfinity.com/axie/@Model.FavouriteTeams[x].ThirdUserFighter"> <img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.FavouriteTeams[x].ThirdUserFighter/axie/axie-full-transparent.png"></a></div>
+                                </div>
+                             
+                                <div class="d-flex flex-nowrap justify-content-center">
+                               <h4 class="text-success mr-2"><span class="font-weight-light">W</span>@Model.FavouriteTeams[x].Wins </h4>
+                                 <h4 class="text-warning mr-2"><span class="font-weight-light">L</span>@Model.FavouriteTeams[x].Losses</h4>
+                                </div>
+                              
+                            </div>
+                          <div class="col-1">
+                            <a href="~/Build/BuildAnalysis?buildId=@Model.FavouriteTeams[x].BuildUid" class="btn btn-icon btn-primary btn-sm" ID="groupColumn" runat="server" Text="GroupColumn" Width="100px" Size="Medium" Type="Button"> View</a>
+                      
+                        </div>
+                 
+                        </div>
+                    </li>
+                    }
+                    }
+                     @if (@Model.FavouriteTeams.Count > 21)
+                    {
+                           @for(int x = 20; x < @Model.FavouriteTeams.Count; x++){
+                             <li id="favCol" class="list-group-item px-0 collapse">
+                           <div  class="row align-items-center">
+                            <div class="col-auto">
+                                      <div class="d-flex flex-nowrap">
+                                <div class="axie-lg-img">  <a href="https://marketplace.axieinfinity.com/axie/@Model.FavouriteTeams[x].FirstUserFighter"> <img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.FavouriteTeams[x].FirstUserFighter/axie/axie-full-transparent.png"></a></div>
+                                <div class="axie-lg-img">  <a href="https://marketplace.axieinfinity.com/axie/@Model.FavouriteTeams[x].SecondUserFighter"> <img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.FavouriteTeams[x].SecondUserFighter/axie/axie-full-transparent.png"></a></div>
+                                <div class="axie-lg-img">  <a href="https://marketplace.axieinfinity.com/axie/@Model.FavouriteTeams[x].ThirdUserFighter"> <img alt="Image placeholder"  src="https://assets.axieinfinity.com/axies/@Model.FavouriteTeams[x].ThirdUserFighter/axie/axie-full-transparent.png"></a></div>
+                                </div>
+                             
+                                <div class="d-flex flex-nowrap justify-content-center">
+                               <h4 class="text-success mr-2"><span class="font-weight-light">W</span>@Model.FavouriteTeams[x].Wins </h4>
+                                 <h4 class="text-warning mr-2"><span class="font-weight-light">L</span>@Model.FavouriteTeams[x].Losses</h4>
+                                </div>
+                              
+                            </div>
+                                <div class="col-1">
+                            <a href="~/Build/BuildAnalysis?buildId=@Model.FavouriteTeams[x].BuildUid" class="btn btn-icon btn-primary btn-sm" ID="groupColumn" runat="server" Text="GroupColumn" Width="100px" Size="Medium" Type="Button"> View</a>
+                      
+                        </div>
+                 
+                        </div>
+                        
+                        </li>
+
+                       }
+                    }
+
+                 
+                </ul>
+            </div>
+                     <div class="card-footer border-0">
+                                 <button type="button" class="btn btn-icon btn-secondary w-100" data-toggle="collapse" data-target="#favCol">Show More</button>
+            </div>
+        </div>
+        </div>
+
+        <div class="col-xl-8 order-xl-2">
+            <ejs-grid id="Grid" allowPaging="true"  toolbar="@(new List<string>() { "Search"})">
+                    
+     <e-grid-pagesettings pageSizes="true">
+    </e-grid-pagesettings>
+
+    <e-grid-columns>
+      <e-grid-column allowFiltering="false" template="#rankTemplate" textAlign="Center"  headerText="Rank" width="100"></e-grid-column>
+      <e-grid-column allowFiltering="false"  template="#mmrTemplate" textAlign="Center"  headerText="Mmr"  width="100" ></e-grid-column>
+         <e-grid-column template="#profileTemplate" textAlign="Center"  headerText="Name"></e-grid-column>
+    </e-grid-columns>
+</ejs-grid>
+
+ 
+        </div>
+</div>
+   <script id="rankTemplate" type="text/x-template">
+       
+      <span class="h4 heading mb-0 text-sm">#${rank}</span>
+   
+                 
+                      
+</script>
+    <script id="mmrTemplate" type="text/x-template">
+       
+      <span class="text-uppercase text-muted font-weight-bold heading mb-0 text-sm">${elo}</span>
+                 
+                      
+</script>
+    <script id="profileTemplate" type="text/x-template">
+       
+      <div class="d-flex flex-nowrap justify-content-center">
+              <a href="/profile/analysis?roninId=${client_id}" class="h5">${name}</a>  
+   </div>  
+                 
+                      
+</script>
+@section Scripts{
+
+    <script type="text/javascript">
+var grid = document.getElementById('Grid').ej2_instances[0]; // Grid instance
+var ajax = new ej.base.Ajax('https://game-api.skymavis.com/game-api/leaderboard?offset=0&limit=100', 'GET');
+ajax.send();
+ajax.onSuccess = function (data) {
+    var parsed = ej.data.DataUtil.parse.parseJson(data);
+    parsed.count = parsed.items.length
+    console.log(parsed);
+    grid.dataSource = parsed.items;
+       grid.pageSettings.pageSize = 100;
+       var name =  document.getElementById('oneName');
+       var address =  document.getElementById('oneAddress');
+       var rank =  document.getElementById('oneRank');
+       var mmr =  document.getElementById('oneMmr');
+
+       name.innerHTML = parsed.items[0].name
+
+               rank.innerHTML = parsed.items[0].rank
+                   mmr.innerHTML = parsed.items[0].elo
+};
+</script>
+}
